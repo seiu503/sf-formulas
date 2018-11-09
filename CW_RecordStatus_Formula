@@ -1,0 +1,42 @@
+if( Inactive_CareWorks_Record__c ,"Inactive",
+
+	if(text(Intake_Result__c)="Submitted Lead Capture Form","Submitted Lead Capture Form",
+
+		if(and(Staff_Turf__c ="",text(Intake_Result__c)=""),"Unassigned Intake",
+
+			if( text(Intake_Result__c)="Activated", "Active",
+
+				if(and(not(Staff_Turf__c =""),text(Intake_Result__c)=""),"Assigned Intake","Closed")))))
+
+
+
+///////
+
+
+/* Create Pending value in Intake_Result__c picklist */
+/* Form connector erases Assigned Intake Org on submission */
+/* Form connector changes Intake Result to Pending */
+
+// if assigned intake org is not empty
+// AND
+// (if intake result == Activated) {
+// 	CW record status = Active
+// } else if (intake result == "") {
+//   CW record status = Unassigned Intake
+// } else if (intake result !== Activated, "", Pending) {
+// 	CW record status = Closed
+// }
+
+
+if( Inactive_CareWorks_Record__c,"Inactive",
+
+	if(text(Intake_Result__c)="Pending","Unassigned Intake",
+
+		if(and(Staff_Turf__c ="",text(Intake_Result__c)=""),"Unassigned Intake",
+
+			if(and(not(Staff_Turf__c =""), or((text(Intake_Result__c)="Pending"),
+					(text(Intake_Result__c)=""))),"Assigned Intake",
+
+					if(text(Intake_Result__c)="Activated","Active",
+
+						"Closed")))))
